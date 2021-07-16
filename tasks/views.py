@@ -13,10 +13,19 @@ from . api import serializers
 # models
 from tasks.models import Task
 
+# services
+from core.core_services import host_from_request
+
 
 class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.TaskSerializer
     queryset = Task.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        domain_prefix = host_from_request(request)
+        tasks = Task.objects.filter(tenant__domain_prefix=domain_prefix)
+        tasks_serializer = serializers.TaskSerializer(tasks, many=True, context={'request': request})
+        return Response(tasks_serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
         task = serializers.TaskCreateSerializer(data=request.data)

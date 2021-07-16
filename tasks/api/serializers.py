@@ -15,7 +15,7 @@ class TaskCreateSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
 
-    tenant = serializers.HyperlinkedRelatedField(many=False, read_only=True, view_name='tenants-detail')
+    tenant = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = Task
