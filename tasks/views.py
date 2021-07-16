@@ -18,6 +18,13 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.TaskSerializer
     queryset = Task.objects.all()
 
+    def create(self, request, *args, **kwargs):
+        task = serializers.TaskCreateSerializer(data=request.data)
+        if task.is_valid():
+            task.save()
+            return Response(task.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
     # /api/tasks/{pk}/check-task/
     @action(detail=True, methods=['PUT'], url_path='check-task')
     def check_task(self, request, pk=None):
