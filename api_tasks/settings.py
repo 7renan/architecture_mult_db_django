@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     # internal apps
     'tasks',
     'tenants',
+    'core',
 
     # external apps
     'rest_framework',
