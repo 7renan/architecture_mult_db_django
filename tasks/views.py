@@ -32,7 +32,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         if task.is_valid():
             task.save()
             return Response(task.data, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Error to create'}, status=status.HTTP_400_BAD_REQUEST)
 
     # /api/tasks/{pk}/check-task/
     @action(detail=True, methods=['PUT'], url_path='check-task')
