@@ -22,8 +22,8 @@ class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
 
     def list(self, request, *args, **kwargs):
-        domain_prefix = host_from_request(request)
-        tasks = Task.objects.filter(tenant__domain_prefix=domain_prefix)
+        tenant = host_from_request(request)
+        tasks = Task.objects.filter(tenant=tenant)
         tasks_serializer = serializers.TaskSerializer(tasks, many=True, context={'request': request})
         return Response(tasks_serializer.data, status=status.HTTP_200_OK)
 
